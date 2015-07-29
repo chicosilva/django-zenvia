@@ -1,0 +1,101 @@
+{% extends "front.html" %}
+{% load front_extras %}
+{% load bootstrap_pagination %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+                <div class="ibox-content">
+
+                    {% if clientes %}
+                        <div class="text-right">
+                            <button type="button" data-toggle="modal" data-target="#confirmar_remocao" class="btn btn-danger"><strong> Remover números inválidos</strong></button>
+                        </div>
+                    {% endif %}
+
+                     {% if clientes %}
+                         <div class="alert alert-warning alert-dismissable">
+                            Números inválidos são números reprovados pelas operadoras. <a href="#" target="_blank"> Veja como funciona. </a>
+                         </div>
+                    {% endif %}
+
+                    <div class="table-responsive margem_table_lista">
+
+                        {% if not clientes %}
+
+                            <div class="alert alert-warning alert-dismissable">
+                                Nenhum número inválido foi encontrado.
+                            </div>
+
+                        {% endif %}
+
+                         {% if clientes %}
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Celular</th>
+                                    <th>Bairro</th>
+                                    <th>Origem</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for cliente in clientes %}
+                                    <tr>
+                                        <td><a href="{% url "cadastro:detalhes" cliente.pk %}"
+                                               title="Clique para editar">{{ cliente }}</a></td>
+                                        <td>{{ cliente.celular_tostr }}</td>
+                                        <td>{{ cliente.bairro|default:"--" }}</td>
+                                        <td>{{ cliente.get_origem_display }}</td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                            {% bootstrap_paginate clientes previous_label="Anterior" next_label="Seguinte" %}
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <form id="form_remover_numeros_invalidos" method="post" action="{% url "cadastro:remover_numeros_invalidos" %}">
+        {% csrf_token %}
+    </form>
+
+    <div class="modal inmodal" id="confirmar_remocao" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content animated bounceInRight">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <i class="fa fa-envelope modal-icon"></i>
+                    <h4 class="modal-title">Confirme a remoção</h4>
+
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" id="btn_confirmar_remocao">Sim, remover</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

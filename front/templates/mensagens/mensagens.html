@@ -1,0 +1,242 @@
+{% extends "front.html" %}
+{% load front_extras %}
+{% load bootstrap_pagination %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+
+                <div class="ibox-content">
+                    {% if saldo_positivo %}
+                        <div class="row">
+                             <div class="btn-group pull-right">
+                                <button data-toggle="dropdown" class="btn btn-success dropdown-toggle">Enviar SMS <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{% url "mensagem:nova_mensagem" %}">Para Usuários Específicos</a></li>
+                                    <li><a href="{% url "mensagem:nova_mensagem_selecao" %}">Para Bairros e Categorias</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{% url "mensagem:nova_mensagem_noticia" %}">Enviar SMS com Link de Notícia </a></li>
+                                    <li><a href="{% url "mensagem:nova_mensagem_codigo_promocional" %}">Enviar Código Promocional</a></li>
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    </div>
+                    {% if not is_mobile %}
+                        <form action="{% url "front:index" %}">
+                        <div class="row">
+                            <div class="col-sm-2 m-b-xs">
+                                <select name="bairro" class="input-sm form-control input-s-sm inline">
+                                    <option value="">Filtrar por Bairro</option>
+                                    {% for bairro in bairros %}
+                                        <option value="{{ bairro.pk }}"
+                                                {% ifequal bairro.pk|add:"0" request.GET.bairro|add:"0" %}
+                                                selected="selected" {% endifequal %}>{{ bairro.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-sm-3 m-b-xs">
+                                <select name="categoria" class="input-sm form-control input-s-sm inline">
+                                    <option value="">Filtrar por Categoria</option>
+                                    {% for categoria in categorias %}
+                                        <option value="{{ categoria.pk }}"
+                                                {% ifequal categoria.pk|add:"0" request.GET.categoria|add:"0" %}
+                                                selected="selected" {% endifequal %}>{{ categoria.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-sm-2 m-b-xs">
+                                <select name="mensagem_padrao" class="input-sm form-control input-s-sm inline">
+                                    <option value="">Filtrar por Mensagem Padrão</option>
+                                    {% for padrao in mensagens_padrao %}
+                                        <option value="{{ padrao.pk }}"
+                                                {% ifequal padrao.pk|add:"0" request.GET.mensagem_padrao|add:"0" %}
+                                                selected="selected" {% endifequal %}>{{ padrao.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-sm-3 m-b-xs">
+                                <select name="codigo" class="input-sm form-control input-s-sm inline">
+                                    <option value="">Filtrar por Código Promocional</option>
+                                    {% for codigo in codigo_promocionais %}
+                                        <option value="{{ codigo.pk }}"
+                                                {% ifequal codigo.pk|add:"0" request.GET.codigo|add:"0" %}
+                                                selected="selected" {% endifequal %}>{{ codigo.descricao }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-2 m-b-xs">
+                                <select name="status" class="input-sm form-control input-s-sm inline">
+                                    <option value="">Filtrar por Status</option>
+                                    {% for st in status %}
+                                        <option value="{{ st.pk }}"
+                                                {% ifequal st.pk|add:"0" request.GET.status|add:"0" %}
+                                                selected="selected" {% endifequal %}>{{ st.descricao }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-sm-3 m-b-xs">
+                                <select name="noticia" class="input-sm form-control input-s-sm inline">
+                                    <option value="">Filtrar por Notícias</option>
+                                    {% for noticia in noticias %}
+                                        <option value="{{ noticia.pk }}"
+                                                {% ifequal noticia.pk|add:"0" request.GET.noticia|add:"0" %}
+                                                selected="selected" {% endifequal %}>{{ noticia.title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <input name="nome_celular" type="text" placeholder="Cliente ou mensagem"
+                                           class="input-sm form-control">
+                                    <span class="input-group-btn"><button type="submit" class="btn btn-sm btn-primary">
+                                        Filtrar
+                                    </button> </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    {% endif %}
+                    <form id="acao_massa" action="{% url "mensagem:massa" %}" method="post">
+                         {% csrf_token %}
+                        <div style="width: 500px; padding-top: 30px">
+
+                             <select name="acao" class="input-sm form-control input-s-sm inline" style="float: left; width: 300px">
+                                    <option value="0">Ações em massa:</option>
+                                    <option value="cancelar_agendamento">Cancelar Agendamento</option>
+                                    <option value="novo_envio">Enviar Novamente</option>
+                             </select>
+
+                            <span class="input-group-btn" style="float: left">
+                                <button type="button" data-toggle="modal" data-target="#confirmar_envio" class="btn btn-sm btn-primary"> Aplicar </button>
+                            </span>
+
+                        </div>
+
+
+                        <div class="table-responsive margem_table_lista" style="clear: both">
+
+                            {% if not mensagens %}
+
+                                <div class="alert alert-warning alert-dismissable">
+                                    <i class="fa fa-warning"></i> Sua busca não encontrou nenhum resultado.
+                                </div>
+
+                            {% endif %}
+
+                                <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="marcar_todos" /></th>
+                                    <th>Destino</th>
+                                    <th>Status</th>
+                                    <th>Tipo</th>
+                                    <th>Criada em: </th>
+                                    <th>Clicada? <i data-toggle="tooltip" data-placement="top" class="fa fa-info-circle text-navy" title="Usuários que permitiram responderam ou clicaram no link da mensagem"></i></th>
+                                    <th>Valor Cobrado</th>
+                                    <th>ID</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for mensagem in mensagens %}
+
+                                    <tr>
+                                        <td><input type="checkbox" class="ckecklist" name="mensagem"  value="{{ mensagem.pk }}" /></td>
+                                        <td>
+                                            {{ mensagem.usuario.nome }}
+                                                <br>
+                                            {{ mensagem.celular_tostr }}
+                                        </td>
+                                        <td>
+
+                                            {% if mensagem.data_agendamento %}
+
+                                                <span class="label label-{{ mensagem.status.style }}">{{ mensagem.status }}</span> <br>
+
+                                                <span class="fa fa-clock-o fa-1x"> </span>
+                                                Agendada para <strong>
+                                                {{ mensagem.data_agendamento|date:"d/m/Y"}} às {{ mensagem.data_agendamento|date:"H:i"}}</strong>
+                                                <br>
+                                                <a href="{% url "mensagem:cancelar_agendamento" mensagem.pk %}"> Cancelar Agendamento</a>
+
+
+                                             {% else %}
+                                                <span class="label label-{{ mensagem.status.style }}">{{ mensagem.status }}</span>
+                                             {% endif %}
+
+                                        </td>
+                                        <td>{{ mensagem.fonte|safe }}</td>
+                                        <td> {{ mensagem.data_pt }}</td>
+
+                                        <td>
+                                            {% if mensagem.clicada %}
+                                                <i class="fa fa-check-square text-navy"> Sim</i>
+                                                <br> Resposta: {{ mensagem.resposta }}
+                                            {% else %}
+                                                <span class="label label-warning">Não </span>
+                                            {% endif %}
+                                        </td>
+
+                                        <td>
+                                            R$ {{ mensagem.valor|default:"0,00" }}
+                                        </td>
+
+                                        <td>
+                                             {{ codigo }}A{{ mensagem.pk }}
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+
+                            {% bootstrap_paginate mensagens previous_label="Anterior" next_label="Seguinte" %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+     <div class="modal inmodal" id="confirmar_envio" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated bounceInRight">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                class="sr-only">Close</span></button>
+                        <i class="fa fa-envelope modal-icon"></i>
+                        <h4 class="modal-title">Confirme a Ação</h4>
+
+                    </div>
+                    <div class="modal-body">
+                        <p>Tem certeza?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary" id="envia_mensagem">Sim, aplicar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

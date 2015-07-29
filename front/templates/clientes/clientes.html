@@ -1,0 +1,119 @@
+{% extends "front.html" %}
+{% load front_extras %}
+{% load bootstrap_pagination %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+                <div class="ibox-content">
+
+                    <div class="text-right">
+                         <a href="{% url "cadastro:novo" %}" class="btn btn-success"> Adicionar Cliente </a>
+                    </div>
+
+                    <form action="{% url "front:clientes" %}">
+                        <div class="row">
+                            <div class="col-sm-2 m-b-xs">
+                                <select name="bairro" class="input-sm form-control input-s-sm inline">
+                                    <option value="">Filtrar por Bairro</option>
+                                    {% for bairro in bairros %}
+                                        <option value="{{ bairro.pk }}"
+                                                {% ifequal bairro.pk|add:"0" request.GET.bairro|add:"0" %}
+                                                selected="selected" {% endifequal %}>{{ bairro.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-sm-3 m-b-xs">
+                                <select name="categoria" class="input-sm form-control input-s-sm inline">
+                                    <option value="">Filtrar por Categoria</option>
+                                    {% for categoria in categorias %}
+                                        <option value="{{ categoria.pk }}"
+                                                {% ifequal categoria.pk|add:"0" request.GET.categoria|add:"0" %}
+                                                selected="selected" {% endifequal %}>{{ categoria.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-sm-2 m-b-xs">
+                                <select name="origem" class="input-sm form-control input-s-sm inline">
+                                    <option value="">Origem</option>
+                                    {% for key,value in origens.items %}
+                                        <option value="{{ key }}"
+                                                {% ifequal key|add:"0" request.GET.origem|add:"0" %}
+                                                selected="selected" {% endifequal %}>{{ value }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <input name="nome_celular" type="text" placeholder="Digite nome ou celular"
+                                           class="input-sm form-control">
+                                    <span class="input-group-btn"><button type="submit" class="btn btn-sm btn-primary">
+                                        Filtrar
+                                    </button> </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="table-responsive margem_table_lista">
+
+                        {% if not clientes %}
+
+                            <div class="alert alert-warning alert-dismissable">
+                                <i class="fa fa-warning"></i> Sua busca não encontrou nenhum resultado.
+                            </div>
+
+                        {% endif %}
+
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Celular</th>
+                                <th>Bairro</th>
+                                <th>Receber SMS Marketing? <i data-toggle="tooltip" data-placement="top" class="fa fa-info-circle text-navy" title="Usuários que permitiram recebimento de campanhas"></i></th>
+                                <th>Origem</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for cliente in clientes %}
+                                <tr>
+                                    <td><a href="{% url "cadastro:detalhes" cliente.pk %}" title="Clique para editar">{{ cliente }}</a></td>
+                                    <td>{{ cliente.celular_tostr }}</td>
+
+                                    <td>{{ cliente.bairro|default:"--" }}</td>
+                                    <td>
+                                        {% if cliente.notificacoes %}
+                                            <i class="fa fa-check-square text-navy"> Sim</i>
+                                        {% else %}
+                                            <span class="label label-warning">Não </span>
+                                        {% endif %}
+
+                                    </td>
+                                    <td>{{ cliente.get_origem_display }}</td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                        {% bootstrap_paginate clientes previous_label="Anterior" next_label="Seguinte" %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

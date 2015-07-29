@@ -1,0 +1,29 @@
+{% extends "front.html" %}
+{% load front_extras %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-content">
+
+                    <p>
+                       Coletamos muitos exemplos reais de usos do SMS. Neste guia, trazemos aqueles que são mais usados ou
+                        mais inusitados. Conheça diversas ideias e descubra como o SMS pode trazer benefícios para o negócio da sua empresa.
+                    </p>
+
+                     <p>
+                         <a href="{{ STATIC_URL }}uso.pdf" target="_blank">
+                             <span class="fa fa-cloud-download fa-1x"> </span>
+                            Faça o download do arquivo com exemplos de mensagens
+                         </a>
+                     </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

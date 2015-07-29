@@ -1,0 +1,82 @@
+{% extends "front.html" %}
+{% load front_extras %}
+{% load widget_tweaks %}
+{% load thumbnail %}
+
+{% block menu_left %}
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element">
+                    <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"
+                                                                             style="color: #fff;">{{ configuracao.nome }}</strong></span>
+                    </div>
+                    <div class="logo-element">
+                        Keep
+                    </div>
+                </li>
+
+            </ul>
+
+        </div>
+    </nav>
+
+{% endblock %}
+
+{% block bar_top %}{% endblock %}
+{% block info_creditos %}{% endblock %}
+{% block zopin %}{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-content">
+
+                    {{ mensagem.texto|safe }}
+                    <br><br>
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                    {% endif %}
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if not mensagem.resposta %}
+                        <form class="form_geral" action="{% url "mensagem:detalhe_mensagem" %}?i={{ mensagem.pk }}"
+                          method="post" role="form">
+                        {% csrf_token %}
+                        <input name="id" value="{{ mensagem.pk }}" type="hidden"/>
+
+                        <div class="form-group">
+                            <label>Escreva sua resposta ou observação:</label>
+
+                            {{ form.resposta.errors }}
+                            {{ form.resposta|add_class:"form-control"|attr:"required:true"}}
+
+                        </div>
+
+                        <div class="text-left">
+                            <button type="submit" class="btn btn-sm btn-primary m-t-n-xs"><strong> Enviar
+                                Resposta</strong></button>
+                        </div>
+
+                    </form>
+                    {% endif %}
+
+                    <br><br>{{ configuracao.nome }}
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

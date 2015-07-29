@@ -1,0 +1,13 @@
+cache/*
+.idea
+.idea/*
+Materiais/*
+keepsms/public/media/planilhas/*
+keepsms/public/media/*
+cadastro/migrations/*
+conteudo/migrations/*
+financeiro/migrations/*
+keepconfig/migrations/*
+localizacao/migrations/*
+mensagem/migrations/*
+*.pyc

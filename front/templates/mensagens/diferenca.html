@@ -1,0 +1,52 @@
+{% extends "front.html" %}
+{% load front_extras %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-content">
+
+
+                    <h3>Mensagens Corpotarivas</h3>
+                    <p>
+                       É a mensagem de texto utilizada para comunicação estritamente sobre o
+serviço/produto prestado pelo Cliente, com cunho informativo, tais como cobrança,
+comunicações, alertas e demais conteúdos para notificações.
+                        <br> <br>
+
+                       Mensagens coporativas são aceitas por todas as operadoras. <br> <br>
+                        O texto da mensagem <strong>não</strong> pode conter conteúdo promocional ou qualquer tipo de marketing.
+                        <br>
+                        SMS cooporativos tem a opção de envio de <a href="{% url "mensagem:link_confirmacao" %}">link de confirmação  e possibilidade de resposta do destinatário.</a>
+
+
+                    </p>
+                    <br><br>
+                    <h3>Mensagens Marketing</h3>
+                    <p>
+                        É a mensagem de texto que visa promover a oferta do serviço/produto disponibilizado, a fim de estimular compra ou transação comercial com conotação publicitária, promocional ou de propaganda.
+                        <strong> SMS MARKETING só podem ser enviados no período de 09h00min até 21h00min.</strong>
+                        <br><br>
+                        Claro, Tim, Vivo, OI, Nextel aceitam promoções e SMS Marketing.
+                        Números CTBC não tem garantia de entrega embora muitos recebam as mensagens.
+                        <br>
+                        Todo SMS Marketing tem um link no fim da mensagem, esse link dá a opção do usuário remover seu número e não receber mais promoções ou informativos.
+                        Mas não remove o número para receber mensagens corporativas.
+                    </p>
+
+                     <p>
+                         <a href="{{ STATIC_URL }}uso.pdf" target="_blank">
+                             <span class="fa fa-cloud-download fa-1x"> </span>
+                            Faça o download do arquivo com exemplos de mensagens
+                         </a>
+                     </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

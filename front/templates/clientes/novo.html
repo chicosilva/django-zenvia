@@ -1,0 +1,85 @@
+{% extends "front.html" %}
+{% load front_extras %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-content">
+
+                    <div class="panel-body col-lg-6">
+
+                        <div class="pull-right">
+                            <a href="{% url "front:clientes" %}" class="label"> <span class="fa fa-bars fa-1x"> </span> Voltar para lista </a>
+                        </div>
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                        {% endif %}
+
+                        <form action="{% url "cadastro:novo" %}" method="post" role="form">
+                            {% csrf_token %}
+                            <input type="hidden" name="bairro" id="id_bairro"/>
+                            <input type="hidden" name="origem" value="f"/>
+
+
+                            <div class="form-group">
+
+                                <label>Celular:</label> <span class="marca_texto_vermelho">(Obrigatório)</span>
+                                {{ form.celular.errors }}
+                                {{ form.celular|add_class:"form-control"|attr:"required:true"|attr:"type:tel" }}
+                            </div>
+
+                            <div class="form-group">
+
+                                <label>Categoria:</label> <span class="marca_texto_vermelho">(Obrigatório)</span>
+                                {{ form.categoria.errors }}
+                                {{ form.categoria|add_class:"form-control"|attr:"required:true" }}
+                            </div>
+
+                            <div class="form-group">
+
+                                <label>Nome:</label>
+                                {{ form.nome.errors }}
+                                {{ form.nome|add_class:"form-control" }}
+                            </div>
+
+                            <div class="form-group">
+
+                                <label>CEP:</label>
+                                {{ form.cep.errors }}
+                                {{ form.cep|add_class:"form-control" }}
+                                <a class="lbuscacep"
+                                   href="http://www.buscacep.correios.com.br/servicos/dnec/menuAction.do?Metodo=menuEndereco"
+                                   target="_blank">Não sabe o CEP? Consulte aqui!</a>
+                            </div>
+
+                            <div class="form-group" id="data_1">
+                                <label>Data de Nascimento:</label>
+
+                                <div class="input-group date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    {{ form.data_nascimento.errors }}
+                                    {{ form.data_nascimento|add_class:"form-control" }}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"
+                                        name="salvar" value="1" style="margin-left: 15px"><strong>Salvar</strong>
+                                </button>
+                                <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"
+                                        name="salvar" value="2"><strong>Salvar e adicionar outro</strong></button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

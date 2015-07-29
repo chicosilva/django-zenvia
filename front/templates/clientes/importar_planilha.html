@@ -1,0 +1,91 @@
+{% extends "front.html" %}
+{% load front_extras %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-12" style="">
+
+            <div class="pull-right">
+                <a href="{% url "front:clientes" %}" class="label"> <span class="fa fa-bars fa-1x"> </span> Voltar para lista </a>
+            </div>
+
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Para importar lista de telefones, envie um arquivo .CSV no formato correto. <a href="{{ STATIC_URL }}exemplo.csv" target="_blank"> » Veja
+                        um
+                        exemplo</a></h5>
+
+                </div>
+                <div class="ibox-content">
+                    <h5>Exemplo da ordem das colunas:</h5>
+                    <table class="table table-striped" style="width: 50%">
+                        <thead>
+                        <tr>
+                            <th>Celular (Obrigatório)</th>
+                            <th>CEP (Opcional)</th>
+                            <th>Nome (Opcional)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr>
+                            <td>(34) 9999-9922 ou 3499999922</td>
+                            <td>38700-222 ou 38700222</td>
+                            <td>Renato da Silva Oliveira</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Formulário de Envio
+                        </div>
+                        <div class="panel-body">
+
+                            {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                                    {% endfor %}
+                            {% endif %}
+
+                            <form action="{% url "cadastro:importar_planilha" %}" method="post" role="form"
+                                  enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="form-group">
+
+                                    <label>Categoria</label>
+                                    {{ form.categoria.errors }}
+                                    {{ form.categoria|add_class:"form-control"|attr:"required:true" }}
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Arquivo CSV</label>
+                                    {{ form.arquivo.errors }}
+                                    {{ form.arquivo|add_class:"form-control"|attr:"required:true" }}
+                                </div>
+
+                                <div class="form-group">
+
+                                    <div class="alert alert-warning alert-dismissable">
+                                        É proibido cadastrar de planilhas de terceiros, planilhas compradas ou pratica de spam.
+                                    </div>
+
+                                    <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Enviar</strong></button>
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

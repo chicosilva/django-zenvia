@@ -1,0 +1,2 @@
+Alguém perguntou para redefinição de senha para e-mail {{ email }}. Siga o link abaixo para editar uma nova senha:
+{{ protocol}}://{{ domain }}{% url 'autenticacao:password_reset_confirm' uidb64=uid token=token %}

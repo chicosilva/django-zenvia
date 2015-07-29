@@ -1,0 +1,50 @@
+{% extends "front.html" %}
+{% load front_extras %}
+{% load widget_tweaks %}
+{% load thumbnail %}
+
+{% block menu_left %}
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element">
+                    <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"
+                                                                             style="color: #fff;">{{ configuracao.nome }}</strong></span>
+                    </div>
+                    <div class="logo-element">
+                        Keep
+                    </div>
+                </li>
+
+            </ul>
+
+        </div>
+    </nav>
+
+{% endblock %}
+
+{% block bar_top %}{% endblock %}
+{% block info_creditos %}{% endblock %}
+{% block zopin %}{% endblock %}
+{% block content %}
+
+    <div class="row">
+
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-content">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

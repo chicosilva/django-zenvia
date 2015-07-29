@@ -1,0 +1,5 @@
+requests
+user-agents
+django-user-agents
+django-bootstrap-pagination
+django-widget-tweaks

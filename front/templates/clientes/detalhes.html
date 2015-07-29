@@ -1,0 +1,304 @@
+{% extends "front.html" %}
+{% load front_extras %}
+{% load widget_tweaks %}
+{% block content %}
+
+    <div class="row">
+
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-content">
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form action="{% url "cadastro:desabilitar_recebimento_campanha" cliente.pk %}" method="post"
+                          id="form_status_notificacao">
+                        {% csrf_token %}
+                        <div class="row">
+
+
+                            <div class="table-responsive margem_table_lista">
+                                <div class="m-b-md">
+
+                                    <a href="{% url "cadastro:editar" cliente.pk %}" class="btn btn-info pull-right"> <i
+                                            class="fa fa-paste"></i> Editar</a>
+
+                                    <h2>{{ cliente }}</h2>
+                                </div>
+
+
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+
+                                <th>Celular</th>
+                                <th>Bairro</th>
+                                <th>Receber SMS Marketing? </th>
+                                <th>Origem</th>
+                                <th>Data Nascimento</th>
+                                <th>Categoria</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+
+                                    <td>{{ cliente.celular_tostr }}</td>
+
+                                    <td>{{ cliente.bairro|default:"--" }}</td>
+                                    <td>
+                                        <input type="checkbox" id="receber_sms_check" {% if not cliente.notificacoes %}
+                                               disabled {% endif %} name="receber_sms_check" class="js-switch" value="1"
+                                                {% if cliente.notificacoes %} checked {% endif %} />
+                                        {% if not cliente.notificacoes %}
+                                            <i data-toggle="tooltip" data-placement="top"
+                                               class="fa fa-info-circle text-navy"
+                                               title="Somente o cliente pode habilitar"></i>
+                                        {% endif %}
+
+                                    </td>
+                                    <td>{{ cliente.get_origem_display }}</td>
+                                    <td>{{ cliente.data_nascimento|default:'--'}}</td>
+                                    <td>{{ cliente.categoria }}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                        </div><div class="pull-right">
+                        <a href="{% url "front:clientes" %}" class="label"> <span class="fa fa-bars fa-1x"> </span> Voltar para lista </a>
+                    </div>
+                    </form>
+
+                    <div class="row m-t-sm">
+                        <div class="col-lg-12">
+                            <div class="panel blank-panel">
+                                <div class="panel-heading">
+                                    <div class="panel-options">
+                                        <ul class="nav nav-tabs">
+
+                                            <li class="active">
+                                                <a href="#tab-1" data-toggle="tab">Enviar SMS </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#tab-2" data-toggle="tab">Últimos SMS</a>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="panel-body">
+                                    <div class="tab-content">
+
+                                        <div class="tab-pane active" id="tab-1">
+                                            <div class="chat-form">
+
+                                                <form role="form" method="post"
+                                                      action="{% url "cadastro:detalhes" cliente.pk %}"
+                                                      id="form_enviar_mensagem_usuario">
+                                                    {% csrf_token %}
+
+                                                    {% if form.non_field_errors %}
+                                                        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                                                    {% endif %}
+
+                                                    <div class="form-group">
+                                                        <label>Tipo:</label> <span class="marca_texto_vermelho">(Obrigatório)</span>
+                                                        <a href="{% url "mensagem:diferenca" %}" target="_blank"> Qual a diferença?</a>
+                                                        {{ form.tipo.errors }}
+                                                        {{ form.tipo|add_class:"form-control"|attr:"required:true" }}
+                                                        <div class="alert alert-warning alert-dismissable">
+                                                                                        <i class="fa fa-warning"></i> SMS MARKETING só podem ser enviados no período de 09h00min até 21h00min, de acordo com
+                                                    determinação do MEF e ANATEL.
+                                                                                    </div>
+
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <select name="mensagem_padrao"
+                                                                class="input-sm form-control input-s-sm inline"
+                                                                id="id_set_mensagem_padrao">
+                                                            <option value="">Alguma mensagem padrão?</option>
+                                                            {% for mensagem in mensagens_padrao %}
+                                                                <option value="{{ mensagem.pk }}">{{ mensagem.nome }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group">
+
+                                                        {{ form.texto.errors }}
+                                                        {{ form.texto|add_class:"form-control"|attr:"rows:3" }}
+
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                         <label for="id_enviar_link">Enviar link de confirmação?</label>
+                                                        {{ form.enviar_link.errors }}
+                                                        {{ form.enviar_link }}
+
+                                                        <a href="{% url "mensagem:link_confirmacao" %}" target="_blank"> Como funciona?</a>
+
+                                                    </div>
+<div class="alert alert-warning alert-dismissable">
+                                <i class="fa fa-warning"></i> Data e hora para envio são opcionais
+                            </div>
+                                                    <div class="form-group" id="data_1">
+
+                                                        <div class="input-group date">
+                                                            <span class="input-group-addon"><i
+                                                                    class="fa fa-calendar"></i></span>
+                                                            <input type="text" id="id_data_nascimento"
+                                                                   name="data_agendamento" class="form-control"
+                                                                   placeholder="Data para envio (opcional)"/>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Hora para envio (Caso não informe será aplicado 09:00):</label>
+                                                        <input type="time" placeholder="Hora para envio"
+                                                               name="hora_envio" class="form-control"/>
+                                                    </div>
+
+                                                    {% if saldo_positivo %}
+                                                        <div class="text-left">
+                                                            <button type="button" data-toggle="modal"
+                                                                    data-target="#confirmar_envio"
+                                                                    class="btn btn-sm btn-primary m-t-n-xs"> <strong> Enviar SMS</strong></button>
+                                                        </div>
+                                                    {% else %}
+                                                        <span class="label label-danger">Saldo insuficiente para enviar SMS</span>
+                                                    {% endif %}
+
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="tab-2">
+
+                                            <table class="table table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>Status</th>
+                                                    <th>Data</th>
+                                                    <th>Texto</th>
+                                                    <th>Clidado? <i data-toggle="tooltip" data-placement="top" class="fa fa-info-circle text-navy" title="Informa se o usuário clicou ou respondeu link enviado"></i>
+                                                    <th>ID</th>
+
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for mensagem in mensagens %}
+
+                                                    <tr>
+                                                        <td>
+                                                            {% if mensagem.data_agendamento %}
+
+                                                                <span class="label label-{{ mensagem.status.style }}">{{ mensagem.status }}</span> <br>
+
+                                                                <span class="fa fa-clock-o fa-1x"> </span>
+                                                                Agendada para <strong>
+                                                                {{ mensagem.data_agendamento|date:"d/m/Y"}} às {{ mensagem.data_agendamento|date:"H:i"}}</strong>
+                                                                <br>
+                                                                <a href="{% url "mensagem:cancelar_agendamento" mensagem.pk %}?tela_usuario=1"> Cancelar Agendamento</a>
+                                                             {% else %}
+                                                                <span class="label label-{{ mensagem.status.style }}">{{ mensagem.status|default:"Erro Desconhecido" }}</span>
+                                                             {% endif %}
+                                                        </td>
+
+                                                        <td>
+                                                            {{ mensagem.data_pt }}
+                                                        </td>
+                                                        <td>
+                                                            <p class="small">
+                                                                {{ mensagem.texto }}
+                                                            </p>
+                                                            {% if mensagem.campanha %}
+                                                                <span style="color: #36BCA1"> {{ mensagem.campanha }} </span>
+                                                            {% endif %}
+                                                        </td>
+
+                                                        <td>
+                                                            {% if mensagem.clicada %}
+                                                                <span class="label label-primary"><i class="fa fa-check"></i> Sim </span>
+                                                                <br> Resposta: {{ mensagem.resposta }}
+
+                                                            {% else %}
+                                                                <span class="label label-warning"><i
+                                                                        class="fa fa-info-circle"></i> Não </span>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>
+                                                             {{ codigo }}-{{ mensagem.pk }}
+                                                        </td>
+
+
+                                                    </tr>
+                                                {% endfor %}
+
+                                                </tbody>
+                                            </table>
+                                            <div class="text-right">
+                                                <a href="{% url "front:index" %}?id_usuario={{ cliente.pk }}"
+                                                   class="btn btn-success"> Ver todos SMS </a>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+                                {% if cliente.cep %}
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15125.586292661685!2d-46.523482999999985!3d-18.60122425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94aef548ff003cd9%3A0xb1eafe24688b9384!2s+{{ cliente.cep }}!5e0!3m2!1spt-BR!2sbr!4v1430659798870"
+                                            width="100%" height="450" frameborder="0" style="border:0"></iframe>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal inmodal" id="confirmar_envio" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated bounceInRight">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                class="sr-only">Close</span></button>
+                        <i class="fa fa-envelope modal-icon"></i>
+                        <h4 class="modal-title">Confirme o Envio</h4>
+
+                    </div>
+                    <div class="modal-body">
+                        <p>Tem certeza que deseja enviar?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary" id="envia_mensagem">Sim, enviar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+
+            var mensagens = {};
+
+            {% for mensagem in mensagens_padrao %}
+                mensagens[{{ mensagem.pk }}] = "{{ mensagem.texto }}";
+            {% endfor %}
+
+        </script>
+
+    </div>
+
+{% endblock %}

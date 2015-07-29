@@ -1,0 +1,146 @@
+{% extends "front.html" %}
+{% load front_extras %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-content">
+
+                    <div class="panel-body col-lg-7">
+                        <div class="pull-right">
+                            <a href="{% url "front:index" %}" class="label"> <span class="fa fa-bars fa-1x"> </span> Voltar para lista </a>
+                        </div>
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                        {% endif %}
+                        {% if saldo_positivo %}
+                            <form class="form_geral" action="{% url "mensagem:nova_mensagem_selecao" %}" method="post" id="enviar_mensagem_usuarios_especificos" role="form">
+                            {% csrf_token %}
+
+                            <div class="form-group">
+                                <label>Tipo:</label> <span class="marca_texto_vermelho">(Obrigatório)</span>
+                                <a href="{% url "mensagem:diferenca" %}" target="_blank"> Qual a diferença?</a>
+                                {{ form.tipo.errors }}
+                                {{ form.tipo|add_class:"form-control"|attr:"required:true"}}
+                                <div class="alert alert-warning alert-dismissable">
+                                    <i class="fa fa-warning"></i> SMS MARKETING só podem ser enviados no período de 09h00min até 21h00min, de acordo com
+determinação do MEF e ANATEL.
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Categoria:</label>
+                                {{ form.categoria.errors }}
+                                {{ form.categoria|add_class:"form-control"}}
+                            </div>
+
+                            <div class="form-group">
+                                <label>Bairro:</label>
+                                {{ form.bairro.errors }}
+                                {{ form.bairro|add_class:"form-control"}}
+                            </div>
+
+                            <div class="form-group">
+                                <label>Ou quero:</label>
+                                {{ form.todos.errors }}
+                                {{ form.todos|add_class:"form-control"}}
+                            </div>
+
+                            <div class="form-group">
+                                <select name="mensagem_padrao"
+                                        class="input-sm form-control input-s-sm inline"
+                                        id="id_set_mensagem_padrao">
+                                    <option value="">Alguma mensagem padrão?</option>
+                                    {% for mensagem in mensagens_padrao %}
+                                        <option value="{{ mensagem.pk }}">{{ mensagem.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                 <label>Texto:</label> <span class="marca_texto_vermelho">(Obrigatório)</span>
+                                {{ form.texto.errors }}
+                                {{ form.texto|add_class:"form-control"|attr:"rows:3" }}
+                            </div>
+
+                             <div class="form-group">
+                                 <label for="id_enviar_link">Enviar link de confirmação?</label>
+                                {{ form.enviar_link.errors }}
+                                {{ form.enviar_link }}
+
+                                <a href="{% url "mensagem:link_confirmacao" %}" target="_blank"> Como funciona?</a>
+
+                            </div>
+
+                            <div class="alert alert-warning alert-dismissable">
+                                <i class="fa fa-warning"></i> Data e hora para envio são opcionais
+                            </div>
+
+                            <div class="form-group" id="data_1">
+
+                                <div class="input-group date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" id="id_data_nascimento" name="data_agendamento" class="form-control" placeholder="Data para envio (opcional)"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Hora para envio (Caso não informe será aplicado
+                                    09:00):</label>
+                                <input type="time" placeholder="Hora para envio"
+                                       name="hora_envio" class="form-control"/>
+                            </div>
+
+                             <div class="text-left">
+                                <button type="button" data-toggle="modal"
+                                        data-target="#confirmar_envio"
+                                        class="btn btn-sm btn-primary m-t-n-xs"><strong> Enviar
+                                    mensagem</strong></button>
+                            </div>
+
+                        </form>
+                        {% else %}
+                            <span class="label label-danger">Saldo insuficiente para enviar mensagens</span>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal inmodal" id="confirmar_envio" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content animated bounceInRight">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                            class="sr-only">Close</span></button>
+                    <i class="fa fa-envelope modal-icon"></i>
+                    <h4 class="modal-title">Confirme o Envio</h4>
+
+                </div>
+                <div class="modal-body">
+                    <p><span style="color: red"> O Processo de envio não pode ser cancelado. </span> Tem certeza que deseja enviar?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" id="envia_mensagem">Sim, enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+            var mensagens = {};
+
+            {% for mensagem in mensagens_padrao %}
+                mensagens[{{ mensagem.pk }}] = "{{ mensagem.texto }}";
+            {% endfor %}
+
+        </script>
+{% endblock %}

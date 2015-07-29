@@ -1,0 +1,611 @@
+[
+  {
+    "fields": {
+      "cnpj": null,
+      "first_name": "",
+      "last_name": "",
+      "complemento": null,
+      "numero": "",
+      "bairro": null,
+      "cidade": null,
+      "uf": null,
+      "is_active": true,
+      "cpf": null,
+      "is_superuser": true,
+      "is_staff": true,
+      "last_login": "2015-05-30T00:24:38Z",
+      "celular": null,
+      "groups": [],
+      "cep": "",
+      "user_permissions": [],
+      "endereco": "",
+      "password": "pbkdf2_sha256$20000$nSC8QpB1GBE8$mNhmJEC/L/6lsx7ATNDfAQv4r2z5uXb5aokCtmdzEvI=",
+      "email": "chicosilva1@gmail.com",
+      "date_joined": "2015-05-28T09:13:45Z"
+    },
+    "model": "autenticacao.customuser",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "cnpj": null,
+      "first_name": "",
+      "last_name": "",
+      "complemento": null,
+      "numero": "",
+      "bairro": null,
+      "cidade": null,
+      "uf": null,
+      "is_active": true,
+      "cpf": null,
+      "is_superuser": true,
+      "is_staff": true,
+      "last_login": "2015-05-30T00:24:38Z",
+      "celular": null,
+      "groups": [],
+      "cep": "",
+      "user_permissions": [],
+      "endereco": "",
+      "password": "pbkdf2_sha256$20000$FIbNerbLHr6a$ewFRnF4aKpvhqn9odAP4Qd2r7/Zo7DqroWaPhRsh/Ug=",
+      "email": "emailuser@gmail.com",
+      "date_joined": "2015-05-28T09:13:45Z"
+    },
+    "model": "autenticacao.customuser",
+    "pk": 2
+  },
+  {
+    "model": "autenticacao.Configuracao",
+    "pk": 1,
+    "fields": {
+      "nome": "Edite o nome",
+      "responsavel": "Nome do responsável",
+      "email": "emailempresa@dominio.com",
+      "telefone": "(00) 000-0000",
+      "celular": "(00) 000-0000",
+      "cep": "00000-000",
+      "endereco": "Endereço do Condomínio"
+    }
+  },
+  {
+    "model": "financeiro.StatusPagamento",
+    "fields": {"descricao": "Aberto"},
+    "pk": 1
+  },
+  {
+    "model": "financeiro.StatusPagamento",
+    "fields": {"descricao": "Pago"},
+    "pk": 2
+  },
+  {
+    "model": "financeiro.ValorRecarga",
+    "fields": {
+      "valor": 100,
+      "valor_sms": 0.16
+    },
+    "pk": 1
+  },
+  {
+    "model": "financeiro.ValorRecarga",
+    "fields": {
+      "valor": 150,
+      "valor_sms": 0.14
+    },
+    "pk": 2
+  },
+  {
+    "model": "financeiro.ValorRecarga",
+    "fields": {
+      "valor": 250,
+      "valor_sms": 0.12
+    },
+    "pk": 3
+  },
+  {
+    "model": "financeiro.ValorRecarga",
+    "fields": {
+      "valor": 320,
+      "valor_sms": 0.11
+    },
+    "pk": 4
+  },
+  {
+    "model": "financeiro.ValorRecarga",
+    "fields": {
+      "valor": 500,
+      "valor_sms": 0.10
+    },
+    "pk": 5
+  },
+  {
+    "model": "financeiro.ValorRecarga",
+    "fields": {
+      "valor": 910,
+      "valor_sms": 0.09
+    },
+    "pk": 6
+  },
+  {
+    "model": "financeiro.Credito",
+    "fields": {"valor": 6},
+    "pk": 1
+  },
+  {
+    "fields": {"nome": "Corporativa"},
+    "model": "mensagem.tipo",
+    "pk": 1
+  },
+  {
+    "fields": {"nome": "Marketing"},
+    "model": "mensagem.tipo",
+    "pk": 2
+  },
+  {
+    "model": "mensagem.MensagemPadrao",
+    "pk": 1,
+    "fields": {
+      "nome": "Aniversário",
+      "texto": "Feliz Aniversário! Que sua vida seja constantemente presenteada com felizes momentos. Parabéns!",
+      "data_cadastro": "2015-01-01 12:00:00"
+    }
+  },
+  {
+    "model": "financeiro.Credito",
+    "pk": 1,
+    "fields": {
+      "valor": 6
+    }
+  },
+  {
+    "model": "cadastro.Categoria",
+    "pk": 1,
+    "fields": {
+      "nome": "Padrão",
+      "data_cadastro": "2015-01-01 12:00:00"
+    }
+  },
+  {
+    "model": "keepconfig.Cliente",
+    "pk": 1,
+    "fields": {
+      "nome": "nome",
+      "url": "url"
+    }
+  },
+  {
+    "model": "keepconfig.KeepConfig",
+    "pk": 1,
+    "fields": {
+      "valor_sms": 0.16
+    }
+  },
+  {
+    "fields": {
+      "consultar_api": true,
+      "tarifar": false,
+      "codigo": "01",
+      "descricao": "Agendada"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "consultar_api": true,
+      "tarifar": false,
+      "codigo": "02",
+      "descricao": "Enviada"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": true,
+      "codigo": "03",
+      "descricao": "Entregue"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "04",
+      "descricao": "n\u00e3o Recebido"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "05",
+      "descricao": "Bloqueada"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "06",
+      "descricao": "Bloqueada"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "07",
+      "descricao": "Bloqueada"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "08",
+      "descricao": "Bloqueada"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "09",
+      "descricao": "Bloqueada"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 9
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "10",
+      "descricao": "Erro Desconhecido"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 10
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "11",
+      "descricao": "Corpo do SMS inv\u00e1lido"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 11
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "12",
+      "descricao": "Conte\u00fado maior que o permitido"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 12
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "13",
+      "descricao": "N\u00famero Incorreto ou incompleto"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 13
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "14",
+      "descricao": "N\u00famero Vazio"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 14
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "15",
+      "descricao": "Data de agendamento incorreta"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 15
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "16",
+      "descricao": "Id do SMS maior que o permitido"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 16
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "18",
+      "descricao": "Campo destino inv\u00e1lido"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 17
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "21",
+      "descricao": "campo 'id' \u00e9 obrigat\u00f3rio"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 18
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "80",
+      "descricao": "SMS com mesmo ID j\u00e1 foi enviado"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 19
+  },
+  {
+    "fields": {
+      "consultar_api": true,
+      "tarifar": false,
+      "codigo": "100",
+      "descricao": "SMS em fila de espera"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 20
+  },
+  {
+    "fields": {
+      "consultar_api": true,
+      "tarifar": false,
+      "codigo": "110",
+      "descricao": "SMS enviado para a operadora"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 21
+  },
+  {
+    "fields": {
+      "consultar_api": true,
+      "tarifar": false,
+      "codigo": "111",
+      "descricao": "Mensagem de confirma\u00e7\u00e3o indispon\u00edveis"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 22
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": true,
+      "codigo": "120",
+      "descricao": "SMS recebido"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 23
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "130",
+      "descricao": "Bloqueada"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 24
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "131",
+      "descricao": "Bloqueada"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 25
+  },
+  {
+    "fields": {
+      "consultar_api": true,
+      "tarifar": false,
+      "codigo": "133",
+      "descricao": "O conte\u00fado do SMS em an\u00e1lise"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 26
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "134",
+      "descricao": "SMS bloqueados pelo conte\u00fado proibido"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 27
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "140",
+      "descricao": "N\u00famero de celular n\u00e3o abrangido"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 28
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "150",
+      "descricao": "O SMS expirou na operadora"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 29
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "160",
+      "descricao": "Erro de rede com operadora"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 30
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "161",
+      "descricao": "SMS rejeitado pela Operadora"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 31
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "162",
+      "descricao": "SMS cancelado ou bloqueado pela operadora"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 32
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "171",
+      "descricao": "N\u00famero incorreto"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 33
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "190",
+      "descricao": "Erro desconhecido"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 34
+  },
+  {
+    "fields": {
+      "consultar_api": true,
+      "tarifar": false,
+      "codigo": "200",
+      "descricao": "SMS enviado"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 35
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "999",
+      "descricao": "Erro desconhecido"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 36
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "5000",
+      "descricao": "Saldo Insuficiente"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 37
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "5001",
+      "descricao": "SMS J\u00e1 enviado hoje"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 38
+  },
+  {
+    "fields": {
+      "consultar_api": false,
+      "tarifar": false,
+      "codigo": "5002",
+      "descricao": "Problema de comunica\u00e7\u00e3o API"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 39
+  },
+  {
+    "fields": {
+      "consultar_api": true,
+      "tarifar": false,
+      "codigo": "000",
+      "descricao": "Aguarde, Enviando ..."
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 40
+  },
+  {
+    "fields": {
+      "consultar_api": true,
+      "tarifar": false,
+      "codigo": "015",
+      "descricao": "Data de agendamento incorreta"
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 41
+  },
+  {
+    "fields": {
+      "consultar_api": true,
+      "tarifar": false,
+      "codigo": "00",
+      "descricao": "Aguarde, Enviando ..."
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 42
+  },
+  {
+    "fields": {
+      "consultar_api": true,
+      "tarifar": false,
+      "codigo": "180",
+      "descricao": "Processando..."
+    },
+    "model": "mensagem.statusmensagem",
+    "pk": 43
+  }
+]

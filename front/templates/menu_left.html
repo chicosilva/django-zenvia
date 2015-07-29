@@ -1,0 +1,75 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong
+                                    class="font-bold">{{ configuracao.nome }}</strong>
+                             </span> <span class="text-muted text-xs block">{{ configuracao.responsavel }} <b
+                                    class="caret"></b></span> </span> </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a href="{% url "autenticacao:sair" %}">Sair</a></li>
+                    </ul>
+                </div>
+                <div class="logo-element">
+                    Keep
+                </div>
+            </li>
+
+            {% if configuracao.aceitou_termos %}
+                <li id="menu_mensagens">
+                    <a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">SMS</span><span
+                            class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse out" aria-expanded="false">
+                        <li><a href="{% url "front:index" %}">Lista de SMS</a></li>
+                        <li><a href="{% url "mensagem:exemplos" %}">Exemplos de SMS</a></li>
+                        <li><a href="{% url "front:msg_padrao" %}">SMS Padrão</a></li>
+                        <li><a href="{% url "financeiro:tarifador" %}">Tarifador</a></li>
+                        {% if not saldo_positivo %}
+                            <li><a href="{% url "financeiro:recargas" %}">Recarga</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+
+                <li id="menu_clientes">
+                    <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Meus Clientes</span><span
+                            class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse out" aria-expanded="false">
+                        <li><a href="{% url "front:clientes" %}">Lista de Clientes</a></li>
+                        <li><a href="{% url "front:bairros" %}">Bairros</a></li>
+                        <li><a href="{% url "front:categorias" %}">Categorias</a></li>
+                        <li><a href="{% url "cadastro:numeros_invalidos" %}">Números Inválidos</a></li>
+                        <li><a href="{% url "cadastro:importar_planilha" %}">Importar Planilha</a></li>
+                    </ul>
+                </li>
+
+                <li id="menu_conteudo">
+                <a href="#"><i class="fa fa-share-alt-square"></i> <span class="nav-label">Conteúdo</span><span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse out" aria-expanded="false">
+                    <li><a href="{% url "front:noticias" %}">Notícias</a></li>
+                    <li><a href="{% url "front:codigos_promocionais" %}">Códigos promocionais</a></li>
+                </ul>
+            </li>
+            {% endif %}
+            <li id="menu_config">
+                <a href="{% url "autenticacao:configuracoes" %}"><i class="fa fa-cogs"></i> <span class="nav-label">Configurações</span><span
+                        class="fa arrow"></span></a>
+            </li>
+
+            <li id="menu_faq">
+                <a href="{% url "mensagem:faq" %}"><i class="fa fa-comments"></i> <span class="nav-label">Perguntas Frequentes</span><span
+                        class="fa arrow"></span></a>
+            </li>
+            <li id="menu_config">
+                <a href="{% url "autenticacao:termos" %}"><i class="fa fa-info"></i> <span class="nav-label">Termos de Uso</span><span
+                        class="fa arrow"></span></a>
+            </li>
+
+
+        </ul>
+
+    </div>
+</nav>
